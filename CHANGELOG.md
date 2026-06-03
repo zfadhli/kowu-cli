@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.13.1] - 2026-06-03
+
+### Fixed
+
+- `onInterrupt()` now uses a single reusable listener — calling it
+  multiple times replaces the handler instead of adding duplicate
+  listeners, allowing consumers to override the default exit handler
+  set by `program()`
+
+[0.13.1]: https://github.com/zfadhli/kowu-cli/compare/v0.13.0...v0.13.1
+
 ## [0.13.0] - 2026-06-03
 
 ### Added
