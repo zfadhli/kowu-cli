@@ -149,13 +149,12 @@ console.log(color.bold(logSymbols.error), color.bgRed(color.white(' CRITICAL '))
 sado re-exports [`@clack/prompts`](https://github.com/natemoo-re/clack) for interactive prompts — text, select, confirm, and more. Skip the spinner/progress exports to avoid conflicts with ora.
 
 ```ts
-import { program, text, select, confirm, isCancel, intro, outro } from 'sado'
+import { program, text, select, confirm, isCancel, intro, outro, spinner } from 'sado'
 
 const cli = program('setup-tool')
 
 cli
   .command('setup', 'Run project setup')
-  .spinner.cyan('Applying...')
   .action(async () => {
     intro('Project Setup')
 
@@ -179,7 +178,11 @@ cli
     if (isCancel(ok)) process.exit(0)
     if (!ok) return
 
-    // auto-spinner wraps the actual work
+    // Manual spinner for the work phase only
+    const s = spinner('Applying...').start()
+    await doSetup(name, template)
+    s.succeed('Done!')
+
     outro('Setup complete!')
   })
 

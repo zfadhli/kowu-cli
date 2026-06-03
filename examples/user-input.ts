@@ -2,11 +2,12 @@
 /**
  * sado example: interactive user input via @clack/prompts.
  *
- * Demonstrates text, select, confirm, and other prompt functions
+ * Demonstrates text, select, and confirm prompt functions
  * re-exported from sado, used together with auto-spinners.
  *
  * Usage:
  *   bun run examples/user-input.ts
+ *   bun run examples/user-input.ts --help
  */
 
 import {
@@ -18,6 +19,7 @@ import {
 	outro,
 	program,
 	select,
+	spinner,
 	text,
 } from "../src/index.js";
 
@@ -27,7 +29,6 @@ const cli = program("sado-input");
 
 cli
 	.command("setup", "Run interactive project setup")
-	.spinner.cyan("Applying configuration...")
 	.action(async () => {
 		intro("Project Setup");
 
@@ -70,13 +71,15 @@ cli
 			process.exit(0);
 		}
 
-		// ── Auto-spinner handles the work ──
+		// ── Manual spinner handles the work ──
 		console.log(`  Project: ${name}`);
 		console.log(`  Template: ${template}`);
 		console.log(`  Install: ${install ? "yes" : "no"}`);
 
-		// Simulate setup work
+		// Simulate setup work with a manual spinner
+		const s = spinner("Installing dependencies...").start();
 		await new Promise((r) => setTimeout(r, 1500));
+		s.succeed("Dependencies installed");
 
 		outro("Setup complete!");
 		note(`Created project "${name}" with ${template} template`, "Summary");
@@ -113,4 +116,9 @@ cli.command("quick", "Quick demo of all prompt types").action(async () => {
 
 cli.version("1.0.0");
 cli.help();
+
+// Run setup by default when no subcommand is given
+if (!process.argv.slice(2).length) {
+	process.argv.push("setup");
+}
 cli.parse();
