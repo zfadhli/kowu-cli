@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0] - 2026-06-03
+
+### Fixed
+
+- User input example no longer exits silently when run without a subcommand;
+  now defaults to the setup action
+- Replaced conflicting auto-spinner with a manual spinner for the work phase
+  to avoid terminal rendering conflicts with @clack/prompts
+
+[0.6.0]: https://github.com/zfadhli/sado/compare/v0.5.0...v0.6.0
+
 ## [0.5.0] - 2026-06-03
 
 ### Added
