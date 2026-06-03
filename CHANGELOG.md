@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.8.0] - 2026-06-03
+
+### Changed
+
+- Package now ships compiled output via tsdown — exports point to `dist/`
+  instead of raw `src/`, enabling use without TypeScript
+
+### Added
+
+- GitHub Actions CI workflow — runs lint, typecheck, build, and test on
+  every PR and push to main
+- GitHub Actions publish workflow — automatically publishes to npm when
+  a version tag is pushed
+- tsdown build configuration for bundling TypeScript source
+
+[0.8.0]: https://github.com/zfadhli/sado/compare/v0.7.0...v0.8.0
+
 ## [0.7.0] - 2026-06-03
 
 ### Added
