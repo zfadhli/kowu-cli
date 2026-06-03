@@ -7,6 +7,8 @@ import {
 	it,
 	mock,
 } from "bun:test";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { join } from "node:path";
 import { createLogger } from "../src/logger.js";
 
 describe("createLogger", () => {
@@ -137,5 +139,64 @@ describe("createLogger", () => {
 	it("defaults level to info", () => {
 		const logger = createLogger();
 		expect(logger.level).toBe("info");
+	});
+
+	describe("file transport", () => {
+		const tmpDir = mkdtempSync("/tmp/kowu-cli-test-");
+		const logFile = join(tmpDir, "test.log");
+
+		afterAll(() => {
+			rmSync(tmpDir, { recursive: true, force: true });
+		});
+
+		it("writes to file with level prefix", () => {
+			const logger = createLogger({ level: "debug", file: logFile });
+			logger.info("Info message");
+			logger.success("Success message");
+
+			const content = readFileSync(logFile, "utf-8");
+			expect(content).toContain("INFO Info message");
+			expect(content).toContain("SUCCESS Success message");
+		});
+
+		it("writes tag prefix in file when provided", () => {
+			const logger = createLogger({
+				level: "debug",
+				file: logFile,
+				tag: "app",
+			});
+			logger.warn("Warning message");
+
+			const content = readFileSync(logFile, "utf-8");
+			expect(content).toContain("[app]");
+			expect(content).toContain("WARN Warning message");
+		});
+
+		it("includes ISO timestamp in file output", () => {
+			const logger = createLogger({ level: "debug", file: logFile });
+			logger.info("Timestamp check");
+
+			const content = readFileSync(logFile, "utf-8");
+			// ISO format: 2026-06-03T...
+			expect(content).toMatch(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+		});
+
+		it("does not write to file when level suppresses the message", () => {
+			const logger = createLogger({ level: "error", file: logFile });
+			logger.info("Should not appear");
+
+			const content = readFileSync(logFile, "utf-8");
+			expect(content).not.toContain("Should not appear");
+		});
+
+		it("child logger inherits file from parent", () => {
+			const logger = createLogger({ level: "debug", file: logFile });
+			const child = logger.withTag("child");
+			child.info("Child message");
+
+			const content = readFileSync(logFile, "utf-8");
+			expect(content).toContain("[child]");
+			expect(content).toContain("INFO Child message");
+		});
 	});
 });

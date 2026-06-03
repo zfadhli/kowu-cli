@@ -453,4 +453,5 @@ bun run examples/log-symbols.ts show
 bun run examples/boxen.ts show
 bun run examples/error-handling.ts fetch
 bun run examples/logger.ts all
+bun run examples/logger.ts file
 ```

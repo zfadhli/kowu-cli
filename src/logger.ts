@@ -1,3 +1,4 @@
+import { appendFileSync } from "node:fs";
 import logSymbols from "log-symbols";
 import color from "picocolors";
 
@@ -55,6 +56,8 @@ export interface Logger {
 export interface LoggerConfig {
 	level?: LogLevel;
 	tag?: string;
+	/** Optional file path to append log lines (plain text, no ANSI codes). */
+	file?: string;
 }
 
 function write(
@@ -66,11 +69,25 @@ function write(
 	message: string,
 	colorFn: (text: string) => string,
 	args: unknown[],
+	file?: string,
+	fileLabel?: string,
 ): void {
 	if (LOG_LEVELS[level] > LOG_LEVELS[currentLevel]) return;
 
 	const prefix = tag ? `${color.dim(`[${tag}]`)} ` : "";
 	console[method](prefix + symbol, colorFn(message), ...args);
+
+	if (file) {
+		const label = fileLabel ?? level.toUpperCase();
+		const plainTag = tag ? ` [${tag}]` : "";
+		const ts = new Date().toISOString();
+		const line = `${ts}${plainTag} ${label} ${message}\n`;
+		try {
+			appendFileSync(file, line);
+		} catch {
+			// ignore file write errors
+		}
+	}
 }
 
 /**
@@ -83,6 +100,7 @@ function write(
 export function createLogger(config: LoggerConfig = {}): Logger {
 	const level = config.level ?? "info";
 	const tag = config.tag;
+	const file = config.file;
 
 	return {
 		level,
@@ -97,6 +115,8 @@ export function createLogger(config: LoggerConfig = {}): Logger {
 				message,
 				color.white,
 				args,
+				file,
+				"INFO",
 			);
 		},
 
@@ -110,6 +130,8 @@ export function createLogger(config: LoggerConfig = {}): Logger {
 				message,
 				color.green,
 				args,
+				file,
+				"SUCCESS",
 			);
 		},
 
@@ -123,6 +145,8 @@ export function createLogger(config: LoggerConfig = {}): Logger {
 				message,
 				color.yellow,
 				args,
+				file,
+				"WARN",
 			);
 		},
 
@@ -136,15 +160,28 @@ export function createLogger(config: LoggerConfig = {}): Logger {
 				message,
 				color.red,
 				args,
+				file,
+				"ERROR",
 			);
 		},
 
 		debug(message: string, ...args: unknown[]) {
-			write("log", "debug", level, tag, "", message, color.dim, args);
+			write(
+				"log",
+				"debug",
+				level,
+				tag,
+				"",
+				message,
+				color.dim,
+				args,
+				file,
+				"DEBUG",
+			);
 		},
 
 		withTag(newTag: string): Logger {
-			return createLogger({ level, tag: newTag });
+			return createLogger({ level, tag: newTag, file });
 		},
 	};
 }

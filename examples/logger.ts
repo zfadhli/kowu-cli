@@ -9,6 +9,7 @@
  *   bun run examples/logger.ts
  *   bun run examples/logger.ts --silent
  *   bun run examples/logger.ts --tag db
+ *   bun run examples/logger.ts file
  */
 
 import { createLogger, program } from "../src/index.js";
@@ -49,6 +50,18 @@ cli.command("tagged", "Show tagged logger context").action(() => {
 	http.info("GET /api/users 200");
 	http.warn("Rate limit at 80%");
 	http.error("POST /api/order 503");
+});
+
+cli.command("file", "Show file transport").action(() => {
+	const logFile = "/tmp/kowu-cli-example.log";
+	const logger = createLogger({ level: "debug", file: logFile });
+
+	logger.info(`This goes to console and ${logFile}`);
+	logger.success("File transport works!");
+	logger.warn("Check the file for plain-text logs");
+	logger.error("Errors also go to the file");
+
+	console.log(`\n  See: cat ${logFile}`);
 });
 
 cli.version("1.0.0");
