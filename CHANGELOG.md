@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0] - 2026-06-03
+
+### Added
+
+- Rewrote README with comprehensive documentation, API reference, and usage guide
+- Added focused runnable examples for args/options, subcommands, oraPromise, and error handling
+- Configured Biome.js for consistent code formatting and linting
+- Added full test suite (25 tests) covering commands, program, and re-exports
+
+[0.2.0]: https://github.com/zfadhli/sado/compare/v0.1.0...v0.2.0
+
 ## [0.1.0] - 2026-06-03
 
 ### Added
