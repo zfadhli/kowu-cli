@@ -1,6 +1,6 @@
 {
 	"name": "kowu-cli",
-	"version": "0.12.0",
+	"version": "0.13.0",
 	"description": "CLI toolkit combining cac (command parsing) + ora (spinners) + picocolors (colors) + @clack/prompts (input) + log-symbols + boxen",
 	"type": "module",
 	"exports": {

@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.13.0] - 2026-06-03
+
+### Added
+
+- `clearLine()` — clears the current terminal line on stderr, for
+  overwriting spinner or status output before writing a final message
+
+### Fixed
+
+- `onInterrupt(handler)` no longer calls `process.exit(130)` after the
+  handler — the handler decides whether and when to exit, enabling
+  two-phase graceful shutdown patterns
+
+[0.13.0]: https://github.com/zfadhli/kowu-cli/compare/v0.12.0...v0.13.0
+
 ## [0.12.0] - 2026-06-03
 
 ### Added
