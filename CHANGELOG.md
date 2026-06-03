@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.11.0] - 2026-06-03
+
+### Added
+
+- `onInterrupt()` — detects Ctrl+C via raw stdin, restores the terminal,
+  and exits cleanly
+- Automatic Ctrl+C handling — `program()` now calls `onInterrupt()`
+  internally, so all kowu-cli scripts handle Ctrl+C without boilerplate
+
+### Changed
+
+- `logger.info()` now uses white text for better readability
+- `ora-promise` example runs multiple spinners sequentially instead of
+  concurrently to avoid ora's concurrent spinner warning
+
+[0.11.0]: https://github.com/zfadhli/kowu-cli/compare/v0.10.1...v0.11.0
+
 ## [0.10.1] - 2026-06-03
 
 ### Added
