@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0] - 2026-06-03
+
+### Added
+
+- Boxen — wrapped `boxen` with success/error/warning/info preset methods
+  for styled output boxes, matching the logSymbols color scheme
+- New dependency: boxen for drawing styled boxes around terminal output
+- Boxen example showing all presets and custom box configuration
+
+[0.7.0]: https://github.com/zfadhli/sado/compare/v0.6.0...v0.7.0
+
 ## [0.6.0] - 2026-06-03
 
 ### Fixed

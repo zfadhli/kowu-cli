@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import {
+	boxen,
 	CoraCommand,
 	color,
 	confirm,
@@ -46,6 +47,16 @@ describe("exports", () => {
 		expect(typeof logSymbols.success).toBe("string");
 		expect(typeof logSymbols.warning).toBe("string");
 		expect(typeof logSymbols.error).toBe("string");
+	});
+
+	it("exports boxen as a function with preset methods", () => {
+		expect(typeof boxen).toBe("function");
+		expect(typeof boxen.success).toBe("function");
+		expect(typeof boxen.error).toBe("function");
+		expect(typeof boxen.warning).toBe("function");
+		expect(typeof boxen.info).toBe("function");
+		expect(typeof boxen("test")).toBe("string");
+		expect(typeof boxen.success("test")).toBe("string");
 	});
 
 	describe("prompt re-exports from @clack/prompts", () => {

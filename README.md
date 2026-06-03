@@ -40,6 +40,7 @@ cli.parse()
 - **Text coloring** — re-exports `picocolors` for coloring terminal output in your actions
 - **Interactive input** — re-exports `@clack/prompts` for text, select, confirm, and more
 - **Log symbols** — re-exports `log-symbols` with colored info/success/warning/error symbols
+- **Styled boxes** — re-exports `boxen` with success/error/warning/info preset methods
 - **Fully typed** — written in TypeScript with complete type definitions
 
 ## Installation
@@ -143,6 +144,33 @@ console.log(color.bold(logSymbols.error), color.bgRed(color.white(' CRITICAL '))
 | ✖ | `error` | Red |
 | ⚠ | `warning` | Yellow |
 | ℹ | `info` | Blue |
+
+### Boxen
+
+sado wraps [`boxen`](https://github.com/sindresorhus/boxen) with preset methods for common log levels:
+
+```ts
+import { boxen } from 'sado'
+
+console.log(boxen.success('Deployment complete!'))
+console.log(boxen.error('Connection failed'))
+console.log(boxen.warning('Disk space low'))
+console.log(boxen.info('Server started on port 3000'))
+```
+
+The `boxen()` function works the same as raw boxen with `padding: 1` by default:
+
+```ts
+console.log(boxen('Custom message', { borderStyle: 'double', borderColor: 'cyan' }))
+```
+
+| Method | Border color |
+|---|---|
+| `boxen.success()` | Green |
+| `boxen.error()` | Red |
+| `boxen.warning()` | Yellow |
+| `boxen.info()` | Blue |
+| `boxen()` (no method) | None (default) |
 
 ### Interactive user input
 
@@ -376,5 +404,6 @@ bun run examples/ora-promise.ts
 bun run examples/color.ts build
 bun run examples/user-input.ts setup
 bun run examples/log-symbols.ts show
+bun run examples/boxen.ts show
 bun run examples/error-handling.ts fetch
 ```
