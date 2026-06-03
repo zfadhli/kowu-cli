@@ -10,6 +10,12 @@
  *   bun run examples/user-input.ts --help
  */
 
+function exitSafely(code = 0): never {
+	process.stdout.write("\u001b[?25h");
+	process.stdin.setRawMode?.(false);
+	process.exit(code);
+}
+
 import {
 	cancel,
 	confirm,
@@ -40,7 +46,7 @@ cli.command("setup", "Run interactive project setup").action(async () => {
 	});
 	if (isCancel(name)) {
 		cancel("Cancelled");
-		process.exit(0);
+		exitSafely();
 	}
 
 	// ── Select prompt ──
@@ -54,7 +60,7 @@ cli.command("setup", "Run interactive project setup").action(async () => {
 	});
 	if (isCancel(template)) {
 		cancel("Cancelled");
-		process.exit(0);
+		exitSafely();
 	}
 
 	// ── Confirm prompt ──
@@ -66,7 +72,7 @@ cli.command("setup", "Run interactive project setup").action(async () => {
 	});
 	if (isCancel(install)) {
 		cancel("Cancelled");
-		process.exit(0);
+		exitSafely();
 	}
 
 	// ── Manual spinner handles the work ──
@@ -90,7 +96,7 @@ cli.command("quick", "Quick demo of all prompt types").action(async () => {
 		message: "Favorite color?",
 		initialValue: "blue",
 	});
-	if (isCancel(favorite)) process.exit(0);
+	if (isCancel(favorite)) exitSafely();
 
 	const size = await select({
 		message: "Size?",
@@ -100,10 +106,10 @@ cli.command("quick", "Quick demo of all prompt types").action(async () => {
 			{ value: "l", label: "Large" },
 		],
 	});
-	if (isCancel(size)) process.exit(0);
+	if (isCancel(size)) exitSafely();
 
 	const ok = await confirm({ message: "All good?" });
-	if (isCancel(ok)) process.exit(0);
+	if (isCancel(ok)) exitSafely();
 
 	if (ok) {
 		outro(`You chose ${favorite} in size ${size}!`);

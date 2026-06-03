@@ -1,5 +1,6 @@
 import { CAC } from "cac";
 import { CoraCommand } from "./command.js";
+import { onInterrupt } from "./process.js";
 
 interface CommandConfig {
 	allowUnknownOptions?: boolean;
@@ -28,5 +29,6 @@ class CoraCAC extends CAC {
  * @param name - The program name to display in help and version message.
  */
 export function program(name?: string): CoraCAC {
+	onInterrupt();
 	return new CoraCAC(name);
 }

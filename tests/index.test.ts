@@ -11,6 +11,7 @@ import {
 	logger,
 	logSymbols,
 	note,
+	onInterrupt,
 	oraPromise,
 	program,
 	select,
@@ -31,6 +32,10 @@ describe("exports", () => {
 
 	it("exports wrapWithSpinner as a function", () => {
 		expect(typeof wrapWithSpinner).toBe("function");
+	});
+
+	it("exports onInterrupt as a function", () => {
+		expect(typeof onInterrupt).toBe("function");
 	});
 
 	it("exports createLogger as a function", () => {

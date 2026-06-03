@@ -95,7 +95,7 @@ export function createLogger(config: LoggerConfig = {}): Logger {
 				tag,
 				logSymbols.info,
 				message,
-				color.blue,
+				color.white,
 				args,
 			);
 		},
