@@ -49,25 +49,19 @@ cli
 
 // ── db:status ────────────────────────────────────────────────
 
-cli
-	.command("db:status", "Show database state")
-	.action(() => {
-		// Manual spinner for cases where you want conditional text
-		const s = migrated
-			? spinner("Database ready").succeed("Database is up to date")
-			: spinner("No migrations run").info(
-					"No migrations have been applied yet",
-				);
-		console.log(`  Migrated: ${migrated}`);
-	});
+cli.command("db:status", "Show database state").action(() => {
+	// Manual spinner for cases where you want conditional text
+	migrated
+		? spinner("Database ready").succeed("Database is up to date")
+		: spinner("No migrations run").info("No migrations have been applied yet");
+	console.log(`  Migrated: ${migrated}`);
+});
 
 // ── Root-level command ───────────────────────────────────────
 
-cli
-	.command("help", "Show available commands")
-	.action(() => {
-		cli.outputHelp();
-	});
+cli.command("help", "Show available commands").action(() => {
+	cli.outputHelp();
+});
 
 cli.version("1.0.0");
 cli.help();

@@ -1,6 +1,6 @@
 {
 	"name": "sado",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "CLI toolkit combining cac (command parsing) + ora (terminal spinners)",
 	"type": "module",
 	"exports": {
@@ -22,7 +22,8 @@
 	},
 	"dependencies": {
 		"cac": "^7.0.0",
-		"ora": "^9.4.0"
+		"ora": "^9.4.0",
+		"picocolors": "^1.1.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.16",

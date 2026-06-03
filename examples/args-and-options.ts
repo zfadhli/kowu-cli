@@ -59,10 +59,7 @@ cli
 	.command("add <...numbers>", "Sum any number of values")
 	.spinner("Summing...")
 	.action((numbers: string[]) => {
-		const total = numbers.reduce(
-			(acc, n) => acc + Number.parseFloat(n),
-			0,
-		);
+		const total = numbers.reduce((acc, n) => acc + Number.parseFloat(n), 0);
 		console.log(total);
 	});
 

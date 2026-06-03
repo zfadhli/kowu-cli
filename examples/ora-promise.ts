@@ -45,18 +45,18 @@ console.log(`  Result: ${processed}`);
 // ── Concurrent promises ─────────────────────────────────────
 
 const results = await Promise.all([
-	oraPromise(
-		new Promise((r) => setTimeout(() => r("Task A done"), 800)),
-		{ text: "Task A", successText: "A finished" },
-	),
-	oraPromise(
-		new Promise((r) => setTimeout(() => r("Task B done"), 1200)),
-		{ text: "Task B", successText: "B finished" },
-	),
-	oraPromise(
-		new Promise((r) => setTimeout(() => r("Task C done"), 600)),
-		{ text: "Task C", successText: "C finished" },
-	),
+	oraPromise(new Promise((r) => setTimeout(() => r("Task A done"), 800)), {
+		text: "Task A",
+		successText: "A finished",
+	}),
+	oraPromise(new Promise((r) => setTimeout(() => r("Task B done"), 1200)), {
+		text: "Task B",
+		successText: "B finished",
+	}),
+	oraPromise(new Promise((r) => setTimeout(() => r("Task C done"), 600)), {
+		text: "Task C",
+		successText: "C finished",
+	}),
 ]);
 console.log(`  All tasks: ${results.join(", ")}`);
 
