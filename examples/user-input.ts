@@ -27,63 +27,61 @@ import {
 
 const cli = program("sado-input");
 
-cli
-	.command("setup", "Run interactive project setup")
-	.action(async () => {
-		intro("Project Setup");
+cli.command("setup", "Run interactive project setup").action(async () => {
+	intro("Project Setup");
 
-		// ── Text prompt ──
-		const name = await text({
-			message: "What is your project name?",
-			placeholder: "my-project",
-			validate(value) {
-				if (!value || value.length === 0) return "Project name is required!";
-			},
-		});
-		if (isCancel(name)) {
-			cancel("Cancelled");
-			process.exit(0);
-		}
-
-		// ── Select prompt ──
-		const template = await select({
-			message: "Pick a template",
-			options: [
-				{ value: "minimal", label: "Minimal", hint: "simple starter" },
-				{ value: "standard", label: "Standard", hint: "recommended" },
-				{ value: "enterprise", label: "Enterprise", hint: "full setup" },
-			],
-		});
-		if (isCancel(template)) {
-			cancel("Cancelled");
-			process.exit(0);
-		}
-
-		// ── Confirm prompt ──
-		const install = await confirm({
-			message: "Install dependencies?",
-			active: "Yes",
-			inactive: "No",
-			initialValue: true,
-		});
-		if (isCancel(install)) {
-			cancel("Cancelled");
-			process.exit(0);
-		}
-
-		// ── Manual spinner handles the work ──
-		console.log(`  Project: ${name}`);
-		console.log(`  Template: ${template}`);
-		console.log(`  Install: ${install ? "yes" : "no"}`);
-
-		// Simulate setup work with a manual spinner
-		const s = spinner("Installing dependencies...").start();
-		await new Promise((r) => setTimeout(r, 1500));
-		s.succeed("Dependencies installed");
-
-		outro("Setup complete!");
-		note(`Created project "${name}" with ${template} template`, "Summary");
+	// ── Text prompt ──
+	const name = await text({
+		message: "What is your project name?",
+		placeholder: "my-project",
+		validate(value) {
+			if (!value || value.length === 0) return "Project name is required!";
+		},
 	});
+	if (isCancel(name)) {
+		cancel("Cancelled");
+		process.exit(0);
+	}
+
+	// ── Select prompt ──
+	const template = await select({
+		message: "Pick a template",
+		options: [
+			{ value: "minimal", label: "Minimal", hint: "simple starter" },
+			{ value: "standard", label: "Standard", hint: "recommended" },
+			{ value: "enterprise", label: "Enterprise", hint: "full setup" },
+		],
+	});
+	if (isCancel(template)) {
+		cancel("Cancelled");
+		process.exit(0);
+	}
+
+	// ── Confirm prompt ──
+	const install = await confirm({
+		message: "Install dependencies?",
+		active: "Yes",
+		inactive: "No",
+		initialValue: true,
+	});
+	if (isCancel(install)) {
+		cancel("Cancelled");
+		process.exit(0);
+	}
+
+	// ── Manual spinner handles the work ──
+	console.log(`  Project: ${name}`);
+	console.log(`  Template: ${template}`);
+	console.log(`  Install: ${install ? "yes" : "no"}`);
+
+	// Simulate setup work with a manual spinner
+	const s = spinner("Installing dependencies...").start();
+	await new Promise((r) => setTimeout(r, 1500));
+	s.succeed("Dependencies installed");
+
+	outro("Setup complete!");
+	note(`Created project "${name}" with ${template} template`, "Summary");
+});
 
 cli.command("quick", "Quick demo of all prompt types").action(async () => {
 	intro("Quick Demo");
