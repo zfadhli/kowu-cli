@@ -2,7 +2,7 @@
 
 # sado
 
-**CLI toolkit combining cac (command parsing) + ora (terminal spinners) + @clack/prompts (interactive input)**
+**CLI toolkit combining cac (command parsing) + ora (terminal spinners) + @clack/prompts (interactive input) + picocolors (terminal colors) + log-symbols (styled log output)**
 
 [![npm version](https://img.shields.io/npm/v/sado?style=flat-square)](https://www.npmjs.com/package/sado)
 [![Node version](https://img.shields.io/badge/Node.js->=20-3c873a?style=flat-square)](https://nodejs.org)
@@ -39,6 +39,7 @@ cli.parse()
 - **Colored spinners** — set the spinner frame color with `.spinner.yellow("text")` or any of 9 colors
 - **Text coloring** — re-exports `picocolors` for coloring terminal output in your actions
 - **Interactive input** — re-exports `@clack/prompts` for text, select, confirm, and more
+- **Log symbols** — re-exports `log-symbols` with colored info/success/warning/error symbols
 - **Fully typed** — written in TypeScript with complete type definitions
 
 ## Installation
@@ -116,6 +117,32 @@ cli.parse()
 ```
 
 `color` supports all picocolors functions: `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `gray`, `black`, `bold`, `dim`, `italic`, `underline`, and background variants like `bgRed`, `bgGreen`.
+
+### Log symbols
+
+sado re-exports [`log-symbols`](https://github.com/sindresorhus/log-symbols) — colored symbols for common log levels, with automatic Windows fallback.
+
+```ts
+import { logSymbols, color } from 'sado'
+
+console.log(logSymbols.success, 'Task completed')   // ✔ Task completed (green)
+console.log(logSymbols.error, 'Something broke')    // ✖ Something broke (red)
+console.log(logSymbols.warning, 'Low disk space')   // ⚠ Low disk space (yellow)
+console.log(logSymbols.info, 'Server started')      // ℹ Server started (blue)
+```
+
+Paired with `color` (picocolors) for bold/background variants:
+
+```ts
+console.log(color.bold(logSymbols.error), color.bgRed(color.white(' CRITICAL ')))
+```
+
+| Symbol | Property | Color |
+|--------|----------|-------|
+| ✔ | `success` | Green |
+| ✖ | `error` | Red |
+| ⚠ | `warning` | Yellow |
+| ℹ | `info` | Blue |
 
 ### Interactive user input
 
@@ -345,5 +372,6 @@ bun run examples/subcommands.ts db:migrate initial_setup
 bun run examples/ora-promise.ts
 bun run examples/color.ts build
 bun run examples/user-input.ts setup
+bun run examples/log-symbols.ts show
 bun run examples/error-handling.ts fetch
 ```

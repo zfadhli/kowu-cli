@@ -24,6 +24,8 @@ export {
 	selectKey,
 	text,
 } from "@clack/prompts";
+// Re-export log-symbols for styled log output symbols
+export { default as logSymbols } from "log-symbols";
 export { default as spinner, oraPromise } from "ora";
 // Re-export picocolors for terminal text coloring
 export { default as color } from "picocolors";

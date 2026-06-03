@@ -1,6 +1,6 @@
 {
 	"name": "sado",
-	"version": "0.4.0",
+	"version": "0.5.0",
 	"description": "CLI toolkit combining cac (command parsing) + ora (terminal spinners)",
 	"type": "module",
 	"exports": {
@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@clack/prompts": "^1.5.0",
 		"cac": "^7.0.0",
+		"log-symbols": "^7.0.1",
 		"ora": "^9.4.0",
 		"picocolors": "^1.1.1"
 	},

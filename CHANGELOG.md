@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.0] - 2026-06-03
+
+### Added
+
+- Log symbols — re-exported `log-symbols` with colored info/success/warning/error
+  symbols for styled terminal output, pairs naturally with `color` (picocolors)
+- New dependency: log-symbols for colored log-level symbols
+- Log symbols example showing deploy simulation and symbol reference
+
+[0.5.0]: https://github.com/zfadhli/sado/compare/v0.4.0...v0.5.0
+
 ## [0.4.0] - 2026-06-03
 
 ### Added
