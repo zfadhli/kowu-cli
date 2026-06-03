@@ -4,7 +4,6 @@ import {
 	CoraCommand,
 	color,
 	confirm,
-	wrapWithSpinner,
 	intro,
 	isCancel,
 	log,
@@ -15,6 +14,7 @@ import {
 	select,
 	spinner,
 	text,
+	wrapWithSpinner,
 } from "../src/index.js";
 
 describe("exports", () => {
