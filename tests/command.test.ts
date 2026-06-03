@@ -2,7 +2,9 @@ import { afterEach, describe, expect, it, mock } from "bun:test";
 
 // --- Mock ora before any import that pulls it in ---
 
-const mockOra = mock((_text: string) => mockOraInstance);
+const mockOra = mock(
+	(_options: { text?: string; color?: string }) => mockOraInstance,
+);
 const mockStart = mock(() => mockOraInstance);
 const mockSucceed = mock(() => {});
 const mockFail = mock((_msg: string) => {});
@@ -29,11 +31,35 @@ describe("CoraCommand", () => {
 		mockFail.mockClear();
 	});
 
-	describe("spinner()", () => {
-		it("returns this for chaining", () => {
+	describe("spinner accessor", () => {
+		it("returns this for chaining via default call", () => {
 			const cmd = new CoraCommand("test", "desc", {}, null as any);
 			const result = cmd.spinner("Loading...");
 			expect(result).toBe(cmd);
+		});
+
+		it("returns this for chaining via color method", () => {
+			const cmd = new CoraCommand("test", "desc", {}, null as any);
+			const result = cmd.spinner.yellow("Loading...");
+			expect(result).toBe(cmd);
+		});
+
+		it("exposes all spinner colors as methods", () => {
+			const cmd = new CoraCommand("test", "desc", {}, null as any);
+			const colors = [
+				"black",
+				"red",
+				"green",
+				"yellow",
+				"blue",
+				"magenta",
+				"cyan",
+				"white",
+				"gray",
+			] as const;
+			for (const c of colors) {
+				expect(typeof (cmd.spinner as any)[c]).toBe("function");
+			}
 		});
 	});
 
@@ -56,7 +82,7 @@ describe("CoraCommand", () => {
 	});
 
 	describe("action() with spinner()", () => {
-		it("wraps callback and calls ora(text).start()", async () => {
+		it("wraps callback and calls ora({text}).start()", async () => {
 			const cmd = new CoraCommand("test", "desc", {}, null as any);
 			cmd.spinner("Working...");
 			cmd.action(async () => "done");
@@ -65,7 +91,10 @@ describe("CoraCommand", () => {
 
 			const result = await cmd.commandAction!();
 
-			expect(mockOra).toHaveBeenCalledWith("Working...");
+			expect(mockOra).toHaveBeenCalledWith({
+				text: "Working...",
+				color: undefined,
+			});
 			expect(mockStart).toHaveBeenCalled();
 			expect(result).toBe("done");
 		});
@@ -112,6 +141,32 @@ describe("CoraCommand", () => {
 
 			expect(mockOra).not.toHaveBeenCalled();
 			expect(mockStart).not.toHaveBeenCalled();
+		});
+
+		it("passes the color to ora when using a color method", async () => {
+			const cmd = new CoraCommand("test", "desc", {}, null as any);
+			cmd.spinner.yellow("Colored spinner");
+			cmd.action(async () => "ok");
+
+			await cmd.commandAction!();
+
+			expect(mockOra).toHaveBeenCalledWith({
+				text: "Colored spinner",
+				color: "yellow",
+			});
+		});
+
+		it("passes undefined color for default .spinner(text) call", async () => {
+			const cmd = new CoraCommand("test", "desc", {}, null as any);
+			cmd.spinner("Default color");
+			cmd.action(async () => "ok");
+
+			await cmd.commandAction!();
+
+			expect(mockOra).toHaveBeenCalledWith({
+				text: "Default color",
+				color: undefined,
+			});
 		});
 	});
 });

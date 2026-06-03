@@ -40,21 +40,19 @@ cli
 
 // ── Pattern 2: Manual error handling with try/catch ─────────
 
-cli
-	.command("validate", "Run validations (may error)")
-	.action(async () => {
-		// Manual spinner for partial progress
-		const s = spinner("Validating...").start();
-		await new Promise((r) => setTimeout(r, 500));
+cli.command("validate", "Run validations (may error)").action(async () => {
+	// Manual spinner for partial progress
+	const s = spinner("Validating...").start();
+	await new Promise((r) => setTimeout(r, 500));
 
-		// Simulate a condition that fails
-		if (Math.random() > 0.3) {
-			s.fail("Validation failed: checksum mismatch");
-			process.exit(1);
-		} else {
-			s.succeed("All validations passed");
-		}
-	});
+	// Simulate a condition that fails
+	if (Math.random() > 0.3) {
+		s.fail("Validation failed: checksum mismatch");
+		process.exit(1);
+	} else {
+		s.succeed("All validations passed");
+	}
+});
 
 // ═════════════════════════════════════════════════════════════
 //  Global error handling

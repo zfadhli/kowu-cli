@@ -1,36 +1,69 @@
-import type { CAC } from "cac";
 import { Command } from "cac";
-import ora from "ora";
+import ora, { type Color } from "ora";
 
-interface CommandConfig {
-	allowUnknownOptions?: boolean;
-	ignoreOptionDefaultValue?: boolean;
+type SpinnerColor = Exclude<Color, boolean>;
+
+const SPINNER_COLORS: SpinnerColor[] = [
+	"black",
+	"red",
+	"green",
+	"yellow",
+	"blue",
+	"magenta",
+	"cyan",
+	"white",
+	"gray",
+];
+
+interface SpinnerAccessor {
+	(text: string): CoraCommand;
+	black(text: string): CoraCommand;
+	red(text: string): CoraCommand;
+	green(text: string): CoraCommand;
+	yellow(text: string): CoraCommand;
+	blue(text: string): CoraCommand;
+	magenta(text: string): CoraCommand;
+	cyan(text: string): CoraCommand;
+	white(text: string): CoraCommand;
+	gray(text: string): CoraCommand;
 }
 
 export class CoraCommand extends Command {
 	private _spinnerText: string | undefined;
+	private _spinnerColor: SpinnerColor | undefined;
 
-	constructor(
-		rawName: string,
-		description: string,
-		config: CommandConfig | undefined,
-		cli: CAC,
-	) {
-		super(rawName, description, config, cli);
-	}
+	/**
+	 * Enable auto-spinner for this command.
+	 *
+	 * Calling `.spinner("text")` creates a spinner with the default
+	 * color (cyan). Calling `.spinner.yellow("text")` creates a spinner
+	 * with a specific color. Available: black, red, green, yellow, blue,
+	 * magenta, cyan, white, gray.
+	 */
+	get spinner(): SpinnerAccessor {
+		const fn = ((text: string) => {
+			this._spinnerText = text;
+			this._spinnerColor = undefined;
+			return this;
+		}) as unknown as SpinnerAccessor;
 
-	/** Enable auto-spinner for this command with the given text. */
-	spinner(text: string): this {
-		this._spinnerText = text;
-		return this;
+		for (const color of SPINNER_COLORS) {
+			fn[color] = (text: string) => {
+				this._spinnerText = text;
+				this._spinnerColor = color;
+				return this;
+			};
+		}
+
+		return fn;
 	}
 
 	/**
 	 * Register a callback as the command action.
 	 *
-	 * If `.spinner()` was called on this command, the callback is automatically
-	 * wrapped with an ora spinner that starts before the action and
-	 * succeeds/fails when the action resolves/rejects.
+	 * If `.spinner("...")` or `.spinner.<color>("...")` was called on this
+	 * command, the callback is automatically wrapped with an ora spinner
+	 * that starts before the action and succeeds/fails on resolve/reject.
 	 */
 	override action(
 		// biome-ignore lint/suspicious/noExplicitAny: matches cac's Command.action() signature
@@ -38,9 +71,13 @@ export class CoraCommand extends Command {
 	): this {
 		if (this._spinnerText) {
 			const spinnerText = this._spinnerText;
+			const spinnerColor = this._spinnerColor;
 			// biome-ignore lint/suspicious/noExplicitAny: matches cac's variadic callback signature
 			const wrappedCallback = async (...args: any[]) => {
-				const spinner = ora(spinnerText).start();
+				const spinner = ora({
+					text: spinnerText,
+					color: spinnerColor,
+				}).start();
 				try {
 					const result = await callback(...args);
 					spinner.succeed();

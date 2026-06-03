@@ -36,6 +36,8 @@ cli.parse()
 - **Zero boilerplate** — add `.spinner()` to any command and get automatic start/succeed/fail behavior
 - **Drop-in compatible** — built on top of cac; every existing cac feature still works
 - **No lock-in** — use the auto-spinner when you want it, or import `spinner()` for full manual control
+- **Colored spinners** — set the spinner frame color with `.spinner.yellow("text")` or any of 9 colors
+- **Text coloring** — re-exports `picocolors` for coloring terminal output in your actions
 - **Fully typed** — written in TypeScript with complete type definitions
 
 ## Installation
@@ -72,6 +74,47 @@ cli.version('1.0.0')
 cli.help()
 cli.parse()
 ```
+
+### Colored spinners
+
+Set the spinner frame color by calling a color method on `.spinner`:
+
+```ts
+cli
+  .command('build', 'Build the project')
+  .spinner.yellow('Building...')
+  .action(async () => { /* spinner frame is yellow */ })
+
+cli
+  .command('deploy', 'Deploy to production')
+  .spinner.red('Deploying...')
+  .action(async () => { /* spinner frame is red */ })
+```
+
+Available colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `gray`. When using `.spinner("text")` (without a color method), the default color is cyan.
+
+### Text coloring with `color`
+
+sado re-exports [`picocolors`](https://github.com/alexeyraspopov/picocolors) for coloring terminal output in your action callbacks:
+
+```ts
+import { program, color } from 'sado'
+
+const cli = program('my-tool')
+
+cli
+  .command('deploy', 'Deploy to production')
+  .spinner.yellow('Deploying...')
+  .action(async () => {
+    console.log(color.green('✓ Deploy succeeded'))
+    console.log(color.red('✖ Deploy failed'))
+    console.log(color.dim('  3 modules compiled'))
+  })
+
+cli.parse()
+```
+
+`color` supports all picocolors functions: `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `gray`, `black`, `bold`, `dim`, `italic`, `underline`, and background variants like `bgRed`, `bgGreen`.
 
 ### Manual spinner
 
@@ -123,11 +166,14 @@ const cli = program('my-cli')
 
 All standard cac methods (`cli.option()`, `cli.version()`, `cli.help()`, `cli.parse()`, etc.) work as expected.
 
-### `command.spinner(text)`
+### `command.spinner` / `command.spinner.<color>(text)`
 
-Enables the auto-spinner for a command. The spinner starts before the action callback runs.
+Enables the auto-spinner for a command with an optional color. The spinner starts before the action callback runs.
 
-- `text` — the text displayed next to the spinner
+- **`.spinner(text)`** — text displayed next to the spinner (default color: cyan)
+- **`.spinner.<color>(text)`** — text with a specific color for the spinner frame
+
+Available colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `gray`.
 
 **Auto-behavior:**
 
@@ -139,9 +185,11 @@ Enables the auto-spinner for a command. The spinner starts before the action cal
 ```ts
 cli
   .command('build', 'Build project')
-  .spinner('Building...')
+  .spinner.yellow('Building...')
   .action(async () => { /* ... */ })
 ```
+
+Note: `.spinner` is a getter — calling it as `.spinner("text")` (default color) or `.spinner.yellow("text")` (colored) both enable the auto-spinner. The color only affects the spinner frame characters, not the text.
 
 ### `spinner(options?)`
 
@@ -160,13 +208,36 @@ Direct re-export of [ora's promise-based spinner](https://github.com/sindresorhu
 await oraPromise(someAsyncWork, { text: 'Working...' })
 ```
 
+### `color`
+
+Re-export of [`picocolors`](https://github.com/alexeyraspopov/picocolors) — a tiny, zero-dependency library for coloring terminal text.
+
+```ts
+import { color } from 'sado'
+
+console.log(color.red('Error!'))
+console.log(color.green('Success'))
+console.log(color.bold(color.yellow('Warning')))
+console.log(color.bgRed(color.white(' CRITICAL ')))
+```
+
 ## Examples
 
-For a complete runnable example, see [`example.ts`](./example.ts):
+For a quick overview, run [`examples/overview.ts`](./examples/overview.ts):
 
 ```bash
-bun run example.ts build    # auto-spinner, succeeds
-bun run example.ts deploy   # auto-spinner, fails
-bun run example.ts publish  # manual spinner via re-exported ora
-bun run example.ts --help   # help output
+bun run examples/overview.ts build    # auto-spinner, succeeds
+bun run examples/overview.ts deploy   # auto-spinner, fails
+bun run examples/overview.ts publish  # manual spinner via re-exported ora
+bun run examples/overview.ts --help   # help output
+```
+
+For focused examples covering specific patterns:
+
+```bash
+bun run examples/args-and-options.ts greet --title Dr "Ada Lovelace"
+bun run examples/subcommands.ts db:migrate initial_setup
+bun run examples/ora-promise.ts
+bun run examples/color.ts build
+bun run examples/error-handling.ts fetch
 ```
