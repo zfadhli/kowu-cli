@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.10.0] - 2026-06-03
+
+### Added
+
+- Native `logger` — configurable logging with info/success/warn/error/debug
+  levels, symbol-prefixed output, and log-level filtering
+- `createLogger(config?)` — factory for creating independent logger instances
+  with custom levels and tags
+- `.withTag(tag)` — create a child logger with a dimmed `[tag]` prefix for
+  contextual output
+- Logger example showing all levels, level filtering, and tagged loggers
+
+[0.10.0]: https://github.com/zfadhli/kowu-cli/compare/v0.9.0...v0.10.0
+
 ## [0.9.0] - 2026-06-03
 
 ### Added
