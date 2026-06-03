@@ -6,6 +6,7 @@ import {
 	intro,
 	isCancel,
 	log,
+	logSymbols,
 	note,
 	oraPromise,
 	program,
@@ -37,6 +38,14 @@ describe("exports", () => {
 		expect(typeof color.red).toBe("function");
 		expect(typeof color.green).toBe("function");
 		expect(typeof color.bold).toBe("function");
+	});
+
+	it("exports logSymbols as an object with symbol strings", () => {
+		expect(typeof logSymbols).toBe("object");
+		expect(typeof logSymbols.info).toBe("string");
+		expect(typeof logSymbols.success).toBe("string");
+		expect(typeof logSymbols.warning).toBe("string");
+		expect(typeof logSymbols.error).toBe("string");
 	});
 
 	describe("prompt re-exports from @clack/prompts", () => {
