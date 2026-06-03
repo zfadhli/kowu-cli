@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.10.1] - 2026-06-03
+
+### Added
+
+- Exported `Logger`, `LogLevel`, and `LoggerConfig` types from the package
+  barrel for use in consumer type annotations
+
+[0.10.1]: https://github.com/zfadhli/kowu-cli/compare/v0.10.0...v0.10.1
+
 ## [0.10.0] - 2026-06-03
 
 ### Added

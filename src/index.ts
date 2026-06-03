@@ -33,5 +33,11 @@ export { default as color } from "picocolors";
 export { boxen } from "./boxen.js";
 export { CoraCommand, wrapWithSpinner } from "./command.js";
 // Export the native logger
-export { createLogger, logger } from "./logger.js";
+export {
+	createLogger,
+	type Logger,
+	type LoggerConfig,
+	type LogLevel,
+	logger,
+} from "./logger.js";
 export { program } from "./program.js";
