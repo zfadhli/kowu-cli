@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * cedok example: commands with arguments and options.
+ * kowu-cli example: commands with arguments and options.
  *
  * Demonstrates positional arguments, option flags, and how
  * they interact with the auto-spinner pattern.
@@ -15,7 +15,7 @@
 
 import { program } from "../src/index.js";
 
-const cli = program("cedok-demo");
+const cli = program("kowu-cli-demo");
 
 // --- Command with positional argument and options ---
 // Note: `.spinner()` must come *before* `.action()`.

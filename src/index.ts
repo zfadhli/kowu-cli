@@ -1,7 +1,7 @@
 // Re-export ora for direct manual use
 
 // Re-export @clack/prompts for interactive user input
-// (skipping spinner/progress/tasks — cedok uses ora for spinners)
+// (skipping spinner/progress/tasks — kowu-cli uses ora for spinners)
 export {
 	autocomplete,
 	autocompleteMultiselect,

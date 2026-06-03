@@ -1,10 +1,10 @@
 <div align="center">
 
-# cedok
+# kowu-cli
 
 **CLI toolkit combining cac (command parsing) + ora (terminal spinners) + @clack/prompts (interactive input) + picocolors (terminal colors) + log-symbols (styled log output)**
 
-[![npm version](https://img.shields.io/npm/v/cedok?style=flat-square)](https://www.npmjs.com/package/cedok)
+[![npm version](https://img.shields.io/npm/v/kowu-cli?style=flat-square)](https://www.npmjs.com/package/kowu-cli)
 [![Node version](https://img.shields.io/badge/Node.js->=20-3c873a?style=flat-square)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
@@ -13,10 +13,10 @@
 
 </div>
 
-Write CLI apps with [cac](https://github.com/cacjs/cac) and get automatic ora spinners on your commands — no boilerplate. Just describe your command, call `.spinner('text')`, and cedok handles the rest.
+Write CLI apps with [cac](https://github.com/cacjs/cac) and get automatic ora spinners on your commands — no boilerplate. Just describe your command, call `.spinner('text')`, and kowu-cli handles the rest.
 
 ```ts
-import { program } from 'cedok'
+import { program } from 'kowu-cli'
 
 const cli = program('my-app')
 
@@ -46,11 +46,11 @@ cli.parse()
 ## Installation
 
 ```bash
-npm install cedok
+npm install kowu-cli
 ```
 
 ```bash
-bun add cedok
+bun add kowu-cli
 ```
 
 ## Usage
@@ -60,7 +60,7 @@ bun add cedok
 The `.spinner()` method enables automatic spinner wrapping for a command. The spinner starts before the action, succeeds on resolve, and fails on reject.
 
 ```ts
-import { program } from 'cedok'
+import { program } from 'kowu-cli'
 
 const cli = program('deploy-tool')
 
@@ -98,10 +98,10 @@ Available colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, 
 
 ### Text coloring with `color`
 
-cedok re-exports [`picocolors`](https://github.com/alexeyraspopov/picocolors) for coloring terminal output in your action callbacks:
+kowu-cli re-exports [`picocolors`](https://github.com/alexeyraspopov/picocolors) for coloring terminal output in your action callbacks:
 
 ```ts
-import { program, color } from 'cedok'
+import { program, color } from 'kowu-cli'
 
 const cli = program('my-tool')
 
@@ -121,10 +121,10 @@ cli.parse()
 
 ### Log symbols
 
-cedok re-exports [`log-symbols`](https://github.com/sindresorhus/log-symbols) — colored symbols for common log levels, with automatic Windows fallback.
+kowu-cli re-exports [`log-symbols`](https://github.com/sindresorhus/log-symbols) — colored symbols for common log levels, with automatic Windows fallback.
 
 ```ts
-import { logSymbols, color } from 'cedok'
+import { logSymbols, color } from 'kowu-cli'
 
 console.log(logSymbols.success, 'Task completed')   // ✔ Task completed (green)
 console.log(logSymbols.error, 'Something broke')    // ✖ Something broke (red)
@@ -147,10 +147,10 @@ console.log(color.bold(logSymbols.error), color.bgRed(color.white(' CRITICAL '))
 
 ### Boxen
 
-cedok wraps [`boxen`](https://github.com/sindresorhus/boxen) with preset methods for common log levels:
+kowu-cli wraps [`boxen`](https://github.com/sindresorhus/boxen) with preset methods for common log levels:
 
 ```ts
-import { boxen } from 'cedok'
+import { boxen } from 'kowu-cli'
 
 console.log(boxen.success('Deployment complete!'))
 console.log(boxen.error('Connection failed'))
@@ -174,10 +174,10 @@ console.log(boxen('Custom message', { borderStyle: 'double', borderColor: 'cyan'
 
 ### Interactive user input
 
-cedok re-exports [`@clack/prompts`](https://github.com/natemoo-re/clack) for interactive prompts — text, select, confirm, and more. Skip the spinner/progress exports to avoid conflicts with ora.
+kowu-cli re-exports [`@clack/prompts`](https://github.com/natemoo-re/clack) for interactive prompts — text, select, confirm, and more. Skip the spinner/progress exports to avoid conflicts with ora.
 
 ```ts
-import { program, text, select, confirm, isCancel, intro, outro, spinner } from 'cedok'
+import { program, text, select, confirm, isCancel, intro, outro, spinner } from 'kowu-cli'
 
 const cli = program('setup-tool')
 
@@ -224,7 +224,7 @@ Re-exported prompts: `text`, `password`, `confirm`, `select`, `multiselect`, `se
 When you need finer control, import `spinner()` directly — it's the default export from [ora](https://github.com/sindresorhus/ora), re-exported for convenience.
 
 ```ts
-import { program, spinner } from 'cedok'
+import { program, spinner } from 'kowu-cli'
 
 const cli = program('publish-tool')
 
@@ -316,7 +316,7 @@ await oraPromise(someAsyncWork, { text: 'Working...' })
 Re-export of [`picocolors`](https://github.com/alexeyraspopov/picocolors) — a tiny, zero-dependency library for coloring terminal text.
 
 ```ts
-import { color } from 'cedok'
+import { color } from 'kowu-cli'
 
 console.log(color.red('Error!'))
 console.log(color.green('Success'))
@@ -329,7 +329,7 @@ console.log(color.bgRed(color.white(' CRITICAL ')))
 Re-exports of [`@clack/prompts`](https://github.com/natemoo-re/clack) — a collection of interactive prompt functions for user input. Each returns a promise that resolves with the user's answer.
 
 ```ts
-import { text, select, confirm, isCancel } from 'cedok'
+import { text, select, confirm, isCancel } from 'kowu-cli'
 
 const name = await text({
   message: 'Your name?',

@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * cedok example: using oraPromise for promise-based spinner control.
+ * kowu-cli example: using oraPromise for promise-based spinner control.
  *
  * `oraPromise` is a convenience utility re-exported from ora.
  * It wraps a promise (or a function that returns one) with a

@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * cedok example: styled log output with log-symbols and picocolors.
+ * kowu-cli example: styled log output with log-symbols and picocolors.
  *
  * Demonstrates info, success, warning, and error symbols
  * paired with color for styled terminal output.
@@ -12,7 +12,7 @@
 
 import { color, logSymbols, program } from "../src/index.js";
 
-const cli = program("cedok-log");
+const cli = program("kowu-cli-log");
 
 cli
 	.command("deploy", "Simulate a deploy with styled logs")

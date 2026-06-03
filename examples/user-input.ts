@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 /**
- * cedok example: interactive user input via @clack/prompts.
+ * kowu-cli example: interactive user input via @clack/prompts.
  *
  * Demonstrates text, select, and confirm prompt functions
- * re-exported from cedok, used together with auto-spinners.
+ * re-exported from kowu-cli, used together with auto-spinners.
  *
  * Usage:
  *   bun run examples/user-input.ts
@@ -25,7 +25,7 @@ import {
 
 // ── Interactive setup command ───────────────────────────────
 
-const cli = program("cedok-input");
+const cli = program("kowu-cli-input");
 
 cli.command("setup", "Run interactive project setup").action(async () => {
 	intro("Project Setup");

@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * cedok example: subcommands and nested CLIs.
+ * kowu-cli example: subcommands and nested CLIs.
  *
  * Demonstrates colon-delimited subcommand names for building
  * tree-like CLI structures (e.g. `db:migrate`, `db:seed`).
@@ -17,7 +17,7 @@
 
 import { program, spinner } from "../src/index.js";
 
-const cli = program("cedok-subcommands");
+const cli = program("kowu-cli-subcommands");
 let migrated = false;
 
 // ── db:migrate ────────────────────────────────────────────────

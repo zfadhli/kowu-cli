@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * cedok example: colored spinners and terminal text coloring.
+ * kowu-cli example: colored spinners and terminal text coloring.
  *
  * Demonstrates:
  *   1. `.spinner.<color>("text")` — set the spinner frame color
@@ -17,7 +17,7 @@
 
 import { color, program } from "../src/index.js";
 
-const cli = program("cedok-colors");
+const cli = program("kowu-cli-colors");
 
 // ── Colored spinner + colored output ────────────────────────
 

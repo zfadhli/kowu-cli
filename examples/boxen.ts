@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * cedok example: styled boxes with boxen.
+ * kowu-cli example: styled boxes with boxen.
  *
  * Demonstrates preset methods (success, error, warning, info)
  * and custom box configuration.
@@ -12,7 +12,7 @@
 
 import { boxen, program } from "../src/index.js";
 
-const cli = program("cedok-boxen");
+const cli = program("kowu-cli-boxen");
 
 cli.command("show", "Show all boxen presets").action(() => {
 	console.log(boxen.success("Deployment complete!"));
