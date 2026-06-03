@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0] - 2026-06-03
+
+### Added
+
+- Colored spinner frames — set the spinner color with `.spinner.yellow("text")`,
+  `.spinner.red("text")`, and 7 other colors (default remains cyan)
+- Re-exported `picocolors` as `color` — lightweight terminal text coloring
+  for action callbacks
+
+[0.3.0]: https://github.com/zfadhli/sado/compare/v0.2.0...v0.3.0
+
 ## [0.2.0] - 2026-06-03
 
 ### Added
