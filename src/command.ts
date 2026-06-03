@@ -1,9 +1,7 @@
 import { Command } from "cac";
 import ora, { type Color } from "ora";
 
-type SpinnerColor = Exclude<Color, boolean>;
-
-const SPINNER_COLORS: SpinnerColor[] = [
+const SPINNER_COLORS = [
 	"black",
 	"red",
 	"green",
@@ -13,19 +11,36 @@ const SPINNER_COLORS: SpinnerColor[] = [
 	"cyan",
 	"white",
 	"gray",
-];
+] as const satisfies readonly Exclude<Color, boolean>[];
 
-interface SpinnerAccessor {
-	(text: string): CoraCommand;
-	black(text: string): CoraCommand;
-	red(text: string): CoraCommand;
-	green(text: string): CoraCommand;
-	yellow(text: string): CoraCommand;
-	blue(text: string): CoraCommand;
-	magenta(text: string): CoraCommand;
-	cyan(text: string): CoraCommand;
-	white(text: string): CoraCommand;
-	gray(text: string): CoraCommand;
+type SpinnerColor = (typeof SPINNER_COLORS)[number];
+
+type SpinnerAccessor = ((text: string) => CoraCommand) & {
+	[K in SpinnerColor]: (text: string) => CoraCommand;
+};
+
+/**
+ * Wrap a callback with an ora spinner that starts before the action
+ * and succeeds/fails on resolve/reject.
+ */
+// biome-ignore lint/suspicious/noExplicitAny: constraint for "any function" pattern
+export function wrapWithSpinner<T extends (...args: any[]) => any>(
+	callback: T,
+	text: string,
+	color?: Color,
+): (...args: Parameters<T>) => Promise<ReturnType<T>> {
+	return async (...args: Parameters<T>): Promise<ReturnType<T>> => {
+		const spinner = ora({ text, color }).start();
+		try {
+			const result = await callback(...args);
+			spinner.succeed();
+			return result;
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			spinner.fail(message);
+			throw err;
+		}
+	};
 }
 
 export class CoraCommand extends Command {
@@ -70,25 +85,9 @@ export class CoraCommand extends Command {
 		callback: (...args: any[]) => any,
 	): this {
 		if (this._spinnerText) {
-			const spinnerText = this._spinnerText;
-			const spinnerColor = this._spinnerColor;
-			// biome-ignore lint/suspicious/noExplicitAny: matches cac's variadic callback signature
-			const wrappedCallback = async (...args: any[]) => {
-				const spinner = ora({
-					text: spinnerText,
-					color: spinnerColor,
-				}).start();
-				try {
-					const result = await callback(...args);
-					spinner.succeed();
-					return result;
-				} catch (err: unknown) {
-					const message = err instanceof Error ? err.message : String(err);
-					spinner.fail(message);
-					throw err;
-				}
-			};
-			return super.action(wrappedCallback);
+			return super.action(
+				wrapWithSpinner(callback, this._spinnerText, this._spinnerColor),
+			);
 		}
 		return super.action(callback);
 	}

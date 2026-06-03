@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.9.0] - 2026-06-03
+
+### Added
+
+- `wrapWithSpinner(callback, text, color?)` — standalone function that wraps
+  any async callback with an ora spinner, auto-succeeding on resolve and
+  auto-failing on reject
+
+### Changed
+
+- Replaced hand-written `SpinnerAccessor` interface with a mapped type
+  derived from `SPINNER_COLORS`, ensuring a single source of truth for
+  color methods
+- Tests now test `wrapWithSpinner` directly instead of reaching into cac's
+  internal `commandAction` property, reducing coupling to upstream library
+  internals
+
+[0.9.0]: https://github.com/zfadhli/kowu-cli/compare/v0.8.0...v0.9.0
+
 ## [0.8.0] - 2026-06-03
 
 ### Changed

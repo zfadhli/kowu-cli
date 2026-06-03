@@ -14,6 +14,7 @@ import {
 	select,
 	spinner,
 	text,
+	wrapWithSpinner,
 } from "../src/index.js";
 
 describe("exports", () => {
@@ -24,6 +25,10 @@ describe("exports", () => {
 	it("exports CoraCommand as a class", () => {
 		// A class is typeof "function"
 		expect(typeof CoraCommand).toBe("function");
+	});
+
+	it("exports wrapWithSpinner as a function", () => {
+		expect(typeof wrapWithSpinner).toBe("function");
 	});
 
 	it("exports spinner as a function", () => {

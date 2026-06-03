@@ -31,5 +31,5 @@ export { default as spinner, oraPromise } from "ora";
 export { default as color } from "picocolors";
 // Re-export boxen with preset methods for styled boxes
 export { boxen } from "./boxen.js";
-export { CoraCommand } from "./command.js";
+export { CoraCommand, wrapWithSpinner } from "./command.js";
 export { program } from "./program.js";
