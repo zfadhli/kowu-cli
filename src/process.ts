@@ -35,3 +35,19 @@ export function onInterrupt(handler?: () => void): void {
 	process.stdin.resume();
 	process.stdin.unref();
 }
+
+/**
+ * Clear the current terminal line using `\r\x1b[K`.
+ * Useful for overwriting spinner or status output on stderr
+ * before writing a final message on the same line.
+ *
+ * @param stream - Output stream (default: "stderr").
+ *
+ * @example
+ * import { clearLine, color } from 'kowu-cli'
+ * clearLine()
+ * process.stderr.write(color.yellow("[!] Warning") + "\n")
+ */
+export function clearLine(stream: "stdout" | "stderr" = "stderr"): void {
+	process[stream].write("\r\u001b[K");
+}

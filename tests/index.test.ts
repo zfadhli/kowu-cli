@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import {
 	boxen,
 	CoraCommand,
+	clearLine,
 	color,
 	confirm,
 	createLogger,
@@ -36,6 +37,10 @@ describe("exports", () => {
 
 	it("exports onInterrupt as a function", () => {
 		expect(typeof onInterrupt).toBe("function");
+	});
+
+	it("exports clearLine as a function", () => {
+		expect(typeof clearLine).toBe("function");
 	});
 
 	it("exports createLogger as a function", () => {

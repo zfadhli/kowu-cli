@@ -40,5 +40,5 @@ export {
 	type LogLevel,
 	logger,
 } from "./logger.js";
-export { onInterrupt } from "./process.js";
+export { clearLine, onInterrupt } from "./process.js";
 export { program } from "./program.js";
